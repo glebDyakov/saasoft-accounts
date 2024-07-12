@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue'
+  import { ref, onMounted } from 'vue'
   const items = ref([])
   const addAccount = () => {
     items.value.push({
@@ -30,4 +30,9 @@
       type: 'ldap'
     })
   }
+
+  onMounted(() => {
+    const data = localStorage.getItem('data')
+    if (data) items.value = JSON.parse(data)
+  })
 </script>

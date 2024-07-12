@@ -29,8 +29,8 @@
           v-model="item.type"
           :items="statusOptions"
           solo
-          @change="saveData"
-        ></v-select>
+          @update:modelValue="saveData"
+        />
       </template>
       <template v-slot:item.login="{ item }">
         <v-text-field v-model="item.login" solo maxlength="100" required :rules="[rules.required]" @blur="saveData" />
