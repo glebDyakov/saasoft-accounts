@@ -19,10 +19,10 @@
       hide-default-footer
       no-data-text="Нет записей"
     >
-      <template v-slot:item.labels="{ item }">
+      <template #[`item.labels`]="{ item }">
         <v-text-field maxlength="50" v-model="item.labels.value" solo @blur="handleLabels(item)" />
       </template>
-      <template v-slot:item.type="{ item }">
+      <template #[`item.type`]="{ item }">
         <v-select
           item-title="text"
           item-value="value"
@@ -32,17 +32,17 @@
           @update:modelValue="saveData"
         />
       </template>
-      <template v-slot:item.login="{ item }">
+      <template #[`item.login`]="{ item }">
         <v-text-field v-model="item.login" solo maxlength="100" required :rules="[rules.required]" @blur="saveData" />
       </template>
-      <template v-slot:item.password="{ item }">
+      <template #[`item.password`]="{ item }">
         <v-text-field v-if="item.type !== 'ldap'" :type="item.password.isVisible ? 'text' : 'password'" v-model="item.password.value" solo maxlength="100" required :rules="[rules.required]" @blur="saveData">
-          <template v-slot:append-inner>
+          <template #append-inner>
             <v-icon @click="item.password.isVisible = !item.password.isVisible">{{ item.password.isVisible ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
           </template>
         </v-text-field>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #[`item.actions`]="{ item }">
         <v-btn icon @click="removeAccount(item)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
@@ -52,8 +52,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue'
-  import { useAccountsStore } from '@/stores/accounts';
+import { ref } from 'vue'
+import { useAccountsStore } from '@/stores/accounts';
+import { Account } from '@/models/Account';
 
   const accountsStore = useAccountsStore();
 
@@ -78,16 +79,16 @@
     { title: '', value: 'actions' }
   ]
 
-  const removeAccount = (account) => {
+  const removeAccount = (account: Account) => {
     accountsStore.remove(account)
   }
 
-  const handleLabels = (account) => {
+  const handleLabels = (account: Account) => {
     accountsStore.parseLabels(account)
   }
 
   const rules = {
-    required: value => !!value || 'Поле обязательное',
+    required: (value: string) => !!value || 'Поле обязательное',
   }
 
   const saveData = () => {

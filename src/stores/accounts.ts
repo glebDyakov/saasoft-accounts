@@ -1,9 +1,14 @@
 import { defineStore } from 'pinia';
+import { Account } from '@/models/Account'
 
 const DATA_KEY = 'data'
 
+interface AccountsState {
+  accounts: Account[];
+}
+
 export const useAccountsStore = defineStore('accounts', {
-  state: () => ({
+  state: (): AccountsState => ({
     accounts: [],
   }),
   actions: {
@@ -15,27 +20,16 @@ export const useAccountsStore = defineStore('accounts', {
       localStorage.setItem(DATA_KEY, JSON.stringify(this.accounts))
     },
     add() {
-      this.accounts.push({
-        labels: {
-          value: '',
-          parsed: [],
-        },
-        login: '',
-        password: {
-          isVisible: false,
-          value: '',
-        },
-        type: 'ldap'
-      })
+      this.accounts.push(new Account())
     },
-    remove(account) {
+    remove(account: Account) {
       const index = this.accounts.indexOf(account);
       if (index !== -1) {
         this.accounts.splice(index, 1);
         this.saveData()
       }
     },
-    parseLabels(account) {
+    parseLabels(account: Account) {
       account.labels.parsed = account.labels.value.split(';').map(text => ({
         text
       }))

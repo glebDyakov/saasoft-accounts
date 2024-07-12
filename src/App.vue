@@ -13,7 +13,7 @@
   </v-app>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
   import { ref, onMounted } from 'vue'
   import { useAccountsStore } from '@/stores/accounts';
   
