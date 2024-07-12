@@ -19,6 +19,9 @@
       hide-default-footer
       no-data-text="Нет записей"
     >
+      <template v-slot:item.labels="{ item }">
+        <v-text-field maxlength="50" v-model="item.labels" solo></v-text-field>
+      </template>
       <template v-slot:item.type="{ item }">
         <v-select
           item-title="text"
