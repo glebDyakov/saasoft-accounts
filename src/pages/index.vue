@@ -38,7 +38,7 @@
         <v-text-field type="password" v-model="item.password" solo></v-text-field>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn icon @click="handleAction(item)">
+        <v-btn icon @click="removeAccount(item)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </template>
@@ -72,4 +72,11 @@
     { title: 'Пароль', value: 'password' },
     { title: '', value: 'actions' }
   ]
+
+  const removeAccount = (item) => {
+    const index = props.items.indexOf(item);
+    if (index !== -1) {
+      props.items.splice(index, 1);
+    }
+  }
 </script>
