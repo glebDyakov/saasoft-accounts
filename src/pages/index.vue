@@ -32,7 +32,7 @@
         ></v-select>
       </template>
       <template v-slot:item.login="{ item }">
-        <v-text-field v-model="item.login" solo></v-text-field>
+        <v-text-field v-model="item.login" solo maxlength="100"></v-text-field>
       </template>
       <template v-slot:item.password="{ item }">
         <v-text-field v-if="item.type !== 'ldap'" :type="item.password.isVisible ? 'text' : 'password'" v-model="item.password.value" solo maxlength="100">
