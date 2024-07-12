@@ -32,7 +32,7 @@
         ></v-select>
       </template>
       <template v-slot:item.login="{ item }">
-        <v-text-field v-model="item.login" solo maxlength="100" required />
+        <v-text-field v-model="item.login" solo maxlength="100" required :rules="[rules.required]" />
       </template>
       <template v-slot:item.password="{ item }">
         <v-text-field v-if="item.type !== 'ldap'" :type="item.password.isVisible ? 'text' : 'password'" v-model="item.password.value" solo maxlength="100" required>
@@ -88,5 +88,9 @@
     item.labels.parsed = item.labels.value.split(';').map(text => ({
       text
     }))
+  }
+
+  const rules = {
+    required: value => !!value || 'Поле обязательное',
   }
 </script>
