@@ -29,13 +29,14 @@
           v-model="item.type"
           :items="statusOptions"
           solo
+          @change="saveData"
         ></v-select>
       </template>
       <template v-slot:item.login="{ item }">
-        <v-text-field v-model="item.login" solo maxlength="100" required :rules="[rules.required]" />
+        <v-text-field v-model="item.login" solo maxlength="100" required :rules="[rules.required]" @blur="saveData" />
       </template>
       <template v-slot:item.password="{ item }">
-        <v-text-field v-if="item.type !== 'ldap'" :type="item.password.isVisible ? 'text' : 'password'" v-model="item.password.value" solo maxlength="100" required :rules="[rules.required]">
+        <v-text-field v-if="item.type !== 'ldap'" :type="item.password.isVisible ? 'text' : 'password'" v-model="item.password.value" solo maxlength="100" required :rules="[rules.required]" @blur="saveData">
           <template v-slot:append-inner>
             <v-icon @click="item.password.isVisible = !item.password.isVisible">{{ item.password.isVisible ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
           </template>
@@ -81,6 +82,7 @@
     const index = props.items.indexOf(item);
     if (index !== -1) {
       props.items.splice(index, 1);
+      saveData()
     }
   }
 
@@ -88,9 +90,14 @@
     item.labels.parsed = item.labels.value.split(';').map(text => ({
       text
     }))
+    saveData()
   }
 
   const rules = {
     required: value => !!value || 'Поле обязательное',
+  }
+
+  const saveData = () => {
+    localStorage.setItem('data', JSON.stringify(props.items))
   }
 </script>
