@@ -46,6 +46,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { ref } from 'vue'
+  const props = defineProps({
+    items: {
+      type: Array,
+      required: true
+    }
+  })
   const hint = 'Для указания нескольких меток для одной пары логин/пароль используйте разделитель ;'
   const statusOptions = [
     {
@@ -63,10 +70,5 @@
     { title: 'Логин', value: 'login' },
     { title: 'Пароль', value: 'password' },
     { title: '', value: 'actions' }
-  ]
-  const items = [
-    { labels: 'XXX', login: '', password: '', type: 'ldap' },
-    { labels: 'YYY', login: '', password: '', type: 'ldap' },
-    { labels: 'XXX; YYYY', login: '', password: '', type: 'local' }
   ]
 </script>
