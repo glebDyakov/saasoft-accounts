@@ -17,6 +17,14 @@
   import { ref } from 'vue'
   const items = ref([])
   const addAccount = () => {
-    items.value.push({ labels: '', login: '', password: '', type: 'ldap' })
+    items.value.push({
+      labels: '',
+      login: '',
+      password: {
+        isVisible: false,
+        value: '',
+      },
+      type: 'ldap'
+    })
   }
 </script>

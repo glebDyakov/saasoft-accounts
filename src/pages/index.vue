@@ -32,7 +32,11 @@
         <v-text-field v-model="item.login" solo></v-text-field>
       </template>
       <template v-slot:item.password="{ item }">
-        <v-text-field v-if="item.type !== 'ldap'" type="password" v-model="item.password" solo></v-text-field>
+        <v-text-field v-if="item.type !== 'ldap'" :type="item.password.isVisible ? 'text' : 'password'" v-model="item.password.value" solo>
+          <template v-slot:append-inner>
+            <v-icon @click="item.password.isVisible = !item.password.isVisible">{{ item.password.isVisible ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
+          </template>
+        </v-text-field>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-btn icon @click="removeAccount(item)">
