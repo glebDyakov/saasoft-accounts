@@ -20,7 +20,7 @@
       no-data-text="Нет записей"
     >
       <template v-slot:item.labels="{ item }">
-        <v-text-field maxlength="50" v-model="item.labels" solo></v-text-field>
+        <v-text-field maxlength="50" v-model="item.labels.value" solo @blur="handleLabels(item)" />
       </template>
       <template v-slot:item.type="{ item }">
         <v-select
@@ -82,5 +82,11 @@
     if (index !== -1) {
       props.items.splice(index, 1);
     }
+  }
+
+  const handleLabels = (item) => {
+    item.labels.parsed = item.labels.value.split(';').map(text => ({
+      text
+    }))
   }
 </script>

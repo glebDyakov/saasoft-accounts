@@ -18,7 +18,10 @@
   const items = ref([])
   const addAccount = () => {
     items.value.push({
-      labels: '',
+      labels: {
+        value: '',
+        parsed: [],
+      },
       login: '',
       password: {
         isVisible: false,
