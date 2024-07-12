@@ -19,9 +19,6 @@
       hide-default-footer
       no-data-text="Нет записей"
     >
-      <template v-slot:item.labels="{ item }">
-        <v-text-field v-model="item.labels" solo></v-text-field>
-      </template>
       <template v-slot:item.type="{ item }">
         <v-select
           item-title="text"
@@ -35,7 +32,7 @@
         <v-text-field v-model="item.login" solo></v-text-field>
       </template>
       <template v-slot:item.password="{ item }">
-        <v-text-field type="password" v-model="item.password" solo></v-text-field>
+        <v-text-field v-if="item.type !== 'ldap'" type="password" v-model="item.password" solo></v-text-field>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-btn icon @click="removeAccount(item)">
