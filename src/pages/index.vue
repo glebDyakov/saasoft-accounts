@@ -17,6 +17,7 @@
       :headers="headers"
       :items="items"
       hide-default-footer
+      no-data-text="Нет записей"
     >
       <template v-slot:item.labels="{ item }">
         <v-text-field v-model="item.labels" solo></v-text-field>
