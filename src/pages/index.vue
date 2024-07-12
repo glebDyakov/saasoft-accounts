@@ -15,7 +15,7 @@
     </v-row>
     <v-data-table
       :headers="headers"
-      :items="items"
+      :items="accountsStore.accounts"
       hide-default-footer
       no-data-text="Нет записей"
     >
@@ -53,13 +53,12 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue'
-  const props = defineProps({
-    items: {
-      type: Array,
-      required: true
-    }
-  })
+  import { useAccountsStore } from '@/stores/accounts';
+
+  const accountsStore = useAccountsStore();
+
   const hint = 'Для указания нескольких меток для одной пары логин/пароль используйте разделитель ;'
+
   const statusOptions = [
     {
       text: 'LDAP',
@@ -70,6 +69,7 @@
       value: 'local'
     }
   ]
+
   const headers = [
     { title: 'Метки', value: 'labels' },
     { title: 'Тип записи', value: 'type' },
@@ -78,19 +78,12 @@
     { title: '', value: 'actions' }
   ]
 
-  const removeAccount = (item) => {
-    const index = props.items.indexOf(item);
-    if (index !== -1) {
-      props.items.splice(index, 1);
-      saveData()
-    }
+  const removeAccount = (account) => {
+    accountsStore.remove(account)
   }
 
-  const handleLabels = (item) => {
-    item.labels.parsed = item.labels.value.split(';').map(text => ({
-      text
-    }))
-    saveData()
+  const handleLabels = (account) => {
+    accountsStore.parseLabels(account)
   }
 
   const rules = {
@@ -98,6 +91,6 @@
   }
 
   const saveData = () => {
-    localStorage.setItem('data', JSON.stringify(props.items))
+    accountsStore.saveData()
   }
 </script>

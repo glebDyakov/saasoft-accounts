@@ -8,31 +8,22 @@
         </v-btn>
     </v-app-bar>
     <v-main>
-      <router-view :items="items" />
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue'
-  const items = ref([])
+  import { useAccountsStore } from '@/stores/accounts';
+  
+  const accountsStore = useAccountsStore();
+  
   const addAccount = () => {
-    items.value.push({
-      labels: {
-        value: '',
-        parsed: [],
-      },
-      login: '',
-      password: {
-        isVisible: false,
-        value: '',
-      },
-      type: 'ldap'
-    })
+    accountsStore.add();
   }
 
   onMounted(() => {
-    const data = localStorage.getItem('data')
-    if (data) items.value = JSON.parse(data)
+    accountsStore.loadData()
   })
 </script>
