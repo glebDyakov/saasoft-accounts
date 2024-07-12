@@ -1,19 +1,72 @@
 <template>
-  <v-row class="mt-4 pa-2 bg-light-blue">
-    <v-col cols="">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon v-bind="attrs" v-on="on">mdi-help-circle</v-icon>
-        </template>
+  <div>
+    <v-row class="my-4 pa-2 bg-light-blue">
+      <v-col cols="2">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on">mdi-help-circle</v-icon>
+          </template>
+          <span>{{ hint }}</span>
+        </v-tooltip>
+      </v-col>
+      <v-col cols="10">
         <span>{{ hint }}</span>
-      </v-tooltip>
-    </v-col>
-    <v-col cols="10">
-      <span>{{ hint }}</span>
-    </v-col>
-  </v-row>
+      </v-col>
+    </v-row>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      hide-default-footer
+    >
+      <template v-slot:item.labels="{ item }">
+        <v-text-field v-model="item.labels" solo></v-text-field>
+      </template>
+      <template v-slot:item.type="{ item }">
+        <v-select
+          item-title="text"
+          item-value="value"
+          v-model="item.type"
+          :items="statusOptions"
+          solo
+        ></v-select>
+      </template>
+      <template v-slot:item.login="{ item }">
+        <v-text-field v-model="item.login" solo></v-text-field>
+      </template>
+      <template v-slot:item.password="{ item }">
+        <v-text-field type="password" v-model="item.password" solo></v-text-field>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-btn icon @click="handleAction(item)">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script lang="ts" setup>
   const hint = 'Для указания нескольких меток для одной пары логин/пароль используйте разделитель ;'
+  const statusOptions = [
+    {
+      text: 'LDAP',
+      value: 'ldap'
+    },
+    {
+      text: 'Локальная',
+      value: 'local'
+    }
+  ]
+  const headers = [
+    { title: 'Метки', value: 'labels' },
+    { title: 'Тип записи', value: 'type' },
+    { title: 'Логин', value: 'login' },
+    { title: 'Пароль', value: 'password' },
+    { title: '', value: 'actions' }
+  ]
+  const items = [
+    { labels: 'XXX', login: '', password: '', type: 'ldap' },
+    { labels: 'YYY', login: '', password: '', type: 'ldap' },
+    { labels: 'XXX; YYYY', login: '', password: '', type: 'local' }
+  ]
 </script>
